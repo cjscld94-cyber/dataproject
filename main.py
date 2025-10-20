@@ -1,5 +1,3 @@
-import streamlit as st
-st.title('!!')
 # app.py
 import streamlit as st
 
@@ -107,4 +105,81 @@ recommendations = {
          "personality":"새로운 걸 시도하고 사람들과 협업하는 걸 즐김."}
     ],
     "ENTP": [
-        {"career":"컨설턴트 / 전
+        {"career":"컨설턴트 / 전략 기획 🧠",
+         "majors":"경영학, 경제학, 산업공학",
+         "personality":"논쟁을 즐기고 문제에 대한 다각적 접근을 잘함."},
+        {"career":"발명가 / 제품기획자 💡",
+         "majors":"산업디자인, 기계공학, 컴퓨터공학",
+         "personality":"혁신적 아이디어로 솔루션을 만드는 걸 좋아함."}
+    ],
+    "ESTJ": [
+        {"career":"기업관리자 / 운영 매니저 📋",
+         "majors":"경영학, 회계학, 산업경영공학",
+         "personality":"조직 운영과 규율을 잘 세우고 실행하는 리더형."},
+        {"career":"법조인 / 변호사 ⚖️",
+         "majors":"법학, 정치외교학",
+         "personality":"논리적이고 규칙을 중시하며 책임감이 강함."}
+    ],
+    "ESFJ": [
+        {"career":"의료서비스 관리자 / 간호관리 🌼",
+         "majors":"간호학, 보건행정, 사회복지학",
+         "personality":"타인 돌봄에 능하고 팀워크를 잘 이끄는 타입."},
+        {"career":"HR / 인사담당자 🤝",
+         "majors":"경영학(인사), 심리학, 교육학",
+         "personality":"사람을 이해하고 지원하는 걸 즐기는 다정한 리더."}
+    ],
+    "ENFJ": [
+        {"career":"교사 / 교육 컨설턴트 🧑‍🏫",
+         "majors":"교육학, 상담교육, 심리학",
+         "personality":"사람을 이끌고 성장시키는 데 열정적인 타입."},
+        {"career":"PR / 커뮤니케이션 매니저 📣",
+         "majors":"커뮤니케이션, 미디어학, 광고홍보",
+         "personality":"사람과의 소통에 능하고 조직의 얼굴이 되는 걸 잘함."}
+    ],
+    "ENTJ": [
+        {"career":"CEO / 경영진 리더 🏢",
+         "majors":"경영학, 경제학, 산업공학",
+         "personality":"목표지향적이고 팀을 이끌어 큰 그림을 실현하는 타입."},
+        {"career":"전략 컨설턴트 / 투자은행가 💼",
+         "majors":"경영학, 금융공학, 경제학",
+         "personality":"결단력 있고 분석적으로 사업 기회를 보는 능력 있음."}
+    ]
+}
+
+# UI
+with st.sidebar:
+    st.header("선택")
+    selected = st.selectbox("너의 MBTI를 골라줘 😊", mbti_list)
+    st.write("👉 아래 버튼을 누르면 추천을 보여줄게.")
+    show = st.button("추천 보기 🔎")
+
+st.markdown("---")
+
+if show:
+    st.subheader(f"{selected} 유형을 골랐구나! 🎉")
+    st.write("친구한테 설명해주듯 쉽게 알려줄게 — 두 가지 진로 추천과 어울리는 전공, 성격 팁까지!")
+    recs = recommendations.get(selected, [])
+
+    for i, r in enumerate(recs, 1):
+        st.markdown(f"### 추천 {i}: {r['career']}")
+        with st.expander("자세히 보기 📝", expanded=(i==1)):
+            st.write(f"**어떤 전공이 잘 맞을까?**\n\n> {r['majors']}")
+            st.write(f"**어떤 성격이 잘 맞을까?**\n\n> {r['personality']}")
+            # 친근한 한 줄 팁
+            if "간호" in r['career'] or "보건" in r['majors']:
+                st.info("팁: 사람을 직접 돌보는 일이니 공감능력과 체력이 큰 장점이야! 💪")
+            elif "개발" in r['career'] or "소프트웨어" in r['career'] or "데이터" in r['career']:
+                st.info("팁: 논리적으로 생각하고 꾸준히 문제풀이하는 걸 즐기면 딱 맞아! 🧠")
+            elif "디자인" in r['career'] or "예술" in r['career']:
+                st.info("팁: 감각을 많이 쓰는 분야니까 포트폴리오 하나씩 만들어봐 ✨")
+            else:
+                st.info("팁: 먼저 소소한 경험(동아리, 봉사, 아르바이트 등)을 해보는 걸 추천해 👍")
+
+    st.markdown("---")
+    st.success("마음에 드는 진로가 있었으면 좋겠다! 더 궁금하면 어떤 진로를 더 자세히 알고 싶은지 말해줘 😊")
+else:
+    st.write("아직 추천을 보지 않았어 — 사이드바에서 MBTI를 고르고 '추천 보기' 버튼을 눌러줘! 🙌")
+
+st.markdown("---")
+st.write("⚠️ 참고: 이 추천은 일반적인 성향과 어울리는 전공·진로 아이디어야. 네 개의 MBTI 지표는 참고용으로만 쓰고, 궁금하면 실제 전공 수업이나 직무 체험도 해보자!")
+
